@@ -30,7 +30,7 @@ var firebaseConfig = {
   });
   
   //function to update page real time for any database changes
-  // database.ref().on("value", function(snapshot){
+  database.ref().on("value", function(snapshot){
     $("#submitBtn").click(function(event){
       $("#trainTable").empty();
       event.preventDefault();
@@ -40,7 +40,8 @@ var firebaseConfig = {
       destination = $("#destinationVal").val().trim();
       frequency = $("#frequencyVal").val().trim();
       arrivalTime = $("#arrivalTimeVal").val().trim();
-      //minutesArrival = arrivalTime - momentjs;
+      minutesArrival = arrivalTime - time;
+        
 
       database.ref().set({
         name: name,
@@ -60,16 +61,16 @@ var firebaseConfig = {
     console.log(snapshot.val().arrivalTime);
     console.log(snapshot.val().minutesArrival);
 
-    $("#trainTable").append('<td>'+ name + '</td><td>'+ destination + '</td><td>'+ frequency + '</td><td>'+ arrivalTime + '</td><td>' + snapshot.val().minutesArrival + '</td>')
-    function clear() {
-      $("#nameVal").val('');
-      $("#destinationVal").val('');
-      $("#frequencyVal").val('');
-      $("#arrivalTimeVal").val('');
+    $("#trainTable").html('<td>'+ name + '</td><td>'+ destination + '</td><td>'+ frequency + '</td><td>'+ arrivalTime + '</td><td>' + snapshot.val().minutesArrival + '</td>')
+    // function clear() {
+    //   $("#nameVal").val('');
+    //   $("#destinationVal").val('');
+    //   $("#frequencyVal").val('');
+    //   $("#arrivalTimeVal").val('');
       
-    }clear();
+    // }clear();
     
 
   });
   });
-// })
+});
