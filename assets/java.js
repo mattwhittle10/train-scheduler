@@ -11,13 +11,65 @@ var firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
 
   var database = firebase.database();
-  var name = [];
-  var destination = [];
-  var frequency = [];
-  var arrivalTime = [];
-  var minutesArrival = [];
+  var name = "";
+  var destination = "";
+  var frequency = "";
+  var arrivalTime;
+  var minutesArrival = (arrivalTime - time);
+  var time = "";
+  time = moment().format('HHmm');
+      console.log(time)
 
+  $(document).ready(function(){
+    $("#currentTime").append(moment().format('HH:mm'));
+    $("#currentArrival1").append(+time + +15);
+    $("#currentArrival2").append(+time + +10);
+    $("#currentArrival3").append(+time + +8);
+    $("#currentArrival4").append(+time + +20);
+    $("#currentArrival5").append(+time + +26);
+  });
+  
   //function to update page real time for any database changes
-  database.ref().on("value", function(snapshot){
+  // database.ref().on("value", function(snapshot){
+    $("#submitBtn").click(function(event){
+      $("#trainTable").empty();
+      event.preventDefault();
+      
 
-  })
+      name = $("#nameVal").val().trim();
+      destination = $("#destinationVal").val().trim();
+      frequency = $("#frequencyVal").val().trim();
+      arrivalTime = $("#arrivalTimeVal").val().trim();
+      //minutesArrival = arrivalTime - momentjs;
+
+      database.ref().set({
+        name: name,
+        destination: destination,
+        frequency: frequency,
+        arrivalTime: arrivalTime,
+        minutesArrival: (arrivalTime - time)
+      });
+    console.log(name + destination + frequency + arrivalTime);
+  
+  
+  database.ref().on("value", function(snapshot) {
+    console.log(snapshot.val());
+    console.log(snapshot.val().name);
+    console.log(snapshot.val().destination);
+    console.log(snapshot.val().frequency);
+    console.log(snapshot.val().arrivalTime);
+    console.log(snapshot.val().minutesArrival);
+
+    $("#trainTable").append('<td>'+ name + '</td><td>'+ destination + '</td><td>'+ frequency + '</td><td>'+ arrivalTime + '</td><td>' + snapshot.val().minutesArrival + '</td>')
+    function clear() {
+      $("#nameVal").val('');
+      $("#destinationVal").val('');
+      $("#frequencyVal").val('');
+      $("#arrivalTimeVal").val('');
+      
+    }clear();
+    
+
+  });
+  });
+// })

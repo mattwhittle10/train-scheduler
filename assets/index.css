@@ -1,3 +1,17 @@
 body{
-    background-color: gray;
-};
+    background-image:url("./images/image1.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: cover;
+}
+
+#currentTime{
+    color: white;
+    font-size: 25px;
+    margin-left:-2%; 
+}
+
+#heading{
+    font-size: 30px;
+}
